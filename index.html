@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>多标签页共享任务队列</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>多标签页共享任务队列</h1>
+    <div class="badges">
+      <span class="badge" id="tabBadge"></span>
+      <span class="badge badge-paused" id="pausedBadge" hidden>已暂停</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel controls">
+      <h2>操作</h2>
+      <div class="btn-row">
+        <button id="enqueue1">入队 1 个</button>
+        <button id="enqueue10">入队 10 个</button>
+        <button id="dequeueOnce">出队并消费 1 个</button>
+        <label class="switch">
+          <input type="checkbox" id="autoToggle" />
+          <span>自动消费</span>
+        </label>
+      </div>
+      <div class="btn-row">
+        <button id="pauseBtn" class="warn">暂停</button>
+        <button id="resumeBtn" class="ok">继续</button>
+        <button id="clearBtn" class="danger">清空队列</button>
+        <label class="slider">
+          模拟失败率
+          <input type="range" id="failRate" min="0" max="100" value="20" />
+          <span id="failRateLabel">20%</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="stats-row">
+      <div class="stat-card"><span class="num" id="pendingCount">0</span><span class="label">待消费</span></div>
+      <div class="stat-card"><span class="num" id="processingCount">0</span><span class="label">消费中</span></div>
+      <div class="stat-card"><span class="num" id="doneCount">0</span><span class="label">已完成</span></div>
+      <div class="stat-card"><span class="num" id="activeTabs">0</span><span class="label">活跃标签页</span></div>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <h2>队列深度（实时）</h2>
+        <canvas id="depthChart" class="chart"></canvas>
+        <div class="legend">
+          <span class="dot pending"></span>待消费
+          <span class="dot processing"></span>消费中
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>各标签页消费数</h2>
+        <canvas id="tabChart" class="chart"></canvas>
+      </section>
+
+      <section class="panel">
+        <h2>标签页统计</h2>
+        <table id="tabsTable">
+          <thead>
+            <tr><th>标签页</th><th>已消费</th><th>失败</th><th>状态</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <h2>队首预览</h2>
+        <ul id="pendingPreview" class="list"></ul>
+      </section>
+
+      <section class="panel wide">
+        <h2>消费历史</h2>
+        <ul id="historyList" class="list history"></ul>
+      </section>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
