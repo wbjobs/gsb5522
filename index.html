@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>多标签页共享任务队列</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>共享任务队列</h1>
+    <div class="meta">
+      <span>标签页 <strong id="tabId">…</strong></span>
+      <span id="netStatus" class="badge">…</span>
+      <span id="queueState" class="badge ok">运行中</span>
+    </div>
+  </header>
+
+  <section class="controls">
+    <input id="taskName" type="text" placeholder="任务名称(可选)" />
+    <button id="enqueueBtn">入队</button>
+    <button id="batchBtn">批量入队 ×10</button>
+    <span class="sep"></span>
+    <button id="consumeBtn">消费一个</button>
+    <button id="autoBtn">开始自动消费</button>
+    <label class="rate">
+      失败率 <input id="failRate" type="range" min="0" max="90" value="20" />
+    </label>
+    <span class="sep"></span>
+    <button id="pauseBtn">暂停队列</button>
+    <button id="clearBtn" class="danger">清空队列</button>
+    <span class="status">状态: <span id="consumeStatus">空闲</span></span>
+  </section>
+
+  <section class="stats">
+    <div class="card"><div class="num" id="statPending">0</div><div class="lbl">待消费</div></div>
+    <div class="card"><div class="num" id="statProcessing">0</div><div class="lbl">消费中</div></div>
+    <div class="card"><div class="num" id="statDone">0</div><div class="lbl">已完成</div></div>
+  </section>
+
+  <canvas id="viz" height="300"></canvas>
+
+  <main>
+    <section class="panel">
+      <h2>标签页统计</h2>
+      <table id="tabsTable">
+        <thead><tr><th>标签页</th><th>状态</th><th>消费成功</th><th>失败次数</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h2>本页日志</h2>
+      <div id="log" class="scroll"></div>
+    </section>
+    <section class="panel">
+      <h2>消费历史(全部标签页)</h2>
+      <div id="history" class="scroll"></div>
+    </section>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
